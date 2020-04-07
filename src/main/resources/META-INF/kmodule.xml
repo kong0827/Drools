@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+    <!-- 让drools加载rules.drl文件 表示加载classpath:resources/rules 下的文件-->
     <kbase name="rules" packages="rules">
         <ksession name="rulesSession"/>
+    </kbase>
+    <kbase name="message" packages="rules">
+        <ksession name="messageSession"/>
     </kbase>
 </kmodule>

@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 
+/**
+ * @author kongxiangjin
+ */
 @SpringBootApplication
 public class DroolsApplication {
 
@@ -14,9 +17,6 @@ public class DroolsApplication {
         SpringApplication.run(DroolsApplication.class, args);
     }
 
-    @Bean
-    public KieContainer kieContainer() {
-        return KieServices.Factory.get().getKieClasspathContainer();
-    }
+
 
 }
