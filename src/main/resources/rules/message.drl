@@ -5,17 +5,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 global String temp;
 global AtomicInteger count;
-
-function void getMessage(String message) {
-    System.out.println("message" + message);
+//函数示例
+function void print(String messgae){
+    System.out.println(messgae);
 }
 
-rule "say hi"
-     when
+//规则1
+rule "say-hi"
+    when
         $message: Message(Message.MessageType.HI.equals(messageType) && target!=null)
-     then
+    then
         print("hi," + $message.getTarget() + ", welcome to drools\n");
-     end
+    end
 
 rule "say-goodbye"
     when
@@ -33,4 +34,31 @@ rule "chat-and-goodbye"
         $message.setMessageType(Message.MessageType.GOODBYE);
         //更新fact,以便触发规则"say-goodbye"
         update($message);
+    end
+
+rule "give-me-money"
+    salience -1 //规则触发的优先级，值越大，越先触发
+    when
+        $message: Message(target.equals("beggar"))
+    then
+        print("5毛拿好");
+    end
+
+rule "give-me-rice"
+    salience 1
+    when
+        $message: Message(target.equals("beggar"))
+    then
+        print("给你个包子吧");
+    end
+
+//本规则的效果：如果target="loop"，会循环触发，真到10次后停下
+rule "loop"
+//    no-loop  //加上这行后，将禁止循环触发
+    when
+        $message: Message(target.equals("loop") && count.get()<10)
+    then
+        print("\n我会每隔1秒触发，10次后停止！" + count.addAndGet(1));
+        Thread.sleep(1000);
+        update($message)
     end
